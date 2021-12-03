@@ -43,7 +43,10 @@ function BotCard({ bot, handleClick, fireRobot }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={(e) => fireRobot(e, bot)}
+                onClick={(e) => {  
+                  e.stopPropagation();
+                  fireRobot(bot)
+                }}
               >
                 x
               </button>

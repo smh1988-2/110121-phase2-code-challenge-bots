@@ -1,7 +1,7 @@
 import React from "react";
 import BotCard from "./BotCard";
 
-function BotCollection({ bots, handleAddToArmy, fireRobot }) {
+function BotCollection({ bots, handleClick, fireRobot }) {
   return (
     <div className="ui four column grid">
       <div className="row">
@@ -10,7 +10,7 @@ function BotCollection({ bots, handleAddToArmy, fireRobot }) {
             <BotCard
               bot={bot}
               key={bot.id}
-              handleClick={handleAddToArmy}
+              handleClick={handleClick}
               fireRobot={fireRobot}
             />
           );

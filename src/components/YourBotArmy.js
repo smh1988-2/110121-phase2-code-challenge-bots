@@ -1,22 +1,21 @@
 import React from "react";
 import BotCard from "./BotCard";
 
-function YourBotArmy({ botsInArmy, handleClick, fireRobot }) {
-  console.log(botsInArmy);
-
+function YourBotArmy({ bots, handleClick, fireRobot }) {
   return (
     <div className="ui segment inverted olive bot-army">
       <div className="ui five column grid">
         <div className="row bot-army-row">
-          {botsInArmy.map((bot) => {
-            return (
-              <BotCard
-                bot={bot}
-                key={bot.id}
-                handleClick={handleClick}
-                fireRobot={fireRobot}
-              />
-            );
+          {bots.filter(bot => bot.inArmy === true)
+            .map((bot) => {
+              return (
+                <BotCard
+                  bot={bot}
+                  key={bot.id}
+                  handleClick={handleClick}
+                  fireRobot={fireRobot}
+                />
+              );
           })}
         </div>
       </div>

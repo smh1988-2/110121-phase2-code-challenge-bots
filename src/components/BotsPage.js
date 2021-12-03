@@ -4,9 +4,7 @@ import BotCollection from "./BotCollection";
 
 function BotsPage() {
   const API = "http://localhost:8002/bots";
-
   const [bots, setBots] = useState([]);
-  const [botsInArmy, setBotsInArmy] = useState([]);
 
   useEffect(() => {
     fetch(API)
@@ -15,42 +13,30 @@ function BotsPage() {
   }, []);
 
   function handleAddToArmy(bot) {
-    const botIsAlreadyInArmy = botsInArmy.find((b) => b.id === bot.id);
-    if (botIsAlreadyInArmy) {
-      return;
-    }
-    setBotsInArmy([...botsInArmy, bot]);
+    setBots(bots.map(b => (b.id === bot.id ? {...b, inArmy: true } : b )));
   }
 
   function handleRemoveFromArmy(bot) {
-    const newArray = botsInArmy.filter((aBot) => aBot.id !== bot.id);
-    setBotsInArmy(newArray);
+    setBots(bots.map(b => (b.id === bot.id ? {...b, inArmy: false } : b )));
   }
 
-  function fireRobot(e, bot) {
-    e.stopPropagation();
-
+  function fireRobot(bot) {
     fetch(API + "/" + bot.id, {
       method: "DELETE",
-    }).then((res) => res.json());
-
-    const newListOfBots = bots.filter((aBot) => aBot.id !== bot.id);
-    setBots(newListOfBots);
-
-    const newBotArmy = botsInArmy.filter((aBot) => aBot.id !== bot.id);
-    setBotsInArmy(newBotArmy);
+    }).then(res => res.json())
+      .then(setBots(bots.filter(b => b.id !== bot.id)))
   }
 
   return (
     <div>
       <YourBotArmy
-        botsInArmy={botsInArmy}
+        bots={bots}
         handleClick={handleRemoveFromArmy}
         fireRobot={fireRobot}
       />
       <BotCollection
         bots={bots}
-        handleAddToArmy={handleAddToArmy}
+        handleClick={handleAddToArmy}
         fireRobot={fireRobot}
       />
     </div>
